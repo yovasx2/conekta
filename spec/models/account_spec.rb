@@ -55,9 +55,19 @@ RSpec.describe Account, type: :model do
       expect(result).to eq(false)
     end
 
+    it 'should return true' do
+      result = @account.send(:is_unique?, :public_key, 'unique_key')
+      expect(result).to eq(true)
+    end
+
     it 'should return false' do
       result = @account.send(:is_unique?, :private_key, @account.private_key)
       expect(result).to eq(false)
+    end
+
+    it 'should return true' do
+      result = @account.send(:is_unique?, :private_key, 'unique_key')
+      expect(result).to eq(true)
     end
   end
 end
