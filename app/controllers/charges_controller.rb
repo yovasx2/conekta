@@ -1,51 +1,25 @@
 class ChargesController < ApplicationController
-  before_action :set_charge, only: [:show, :update, :destroy]
-
-  # GET /charges
-  def index
-    @charges = Charge.all
-
-    render json: @charges
-  end
-
-  # GET /charges/1
-  def show
-    render json: @charge
-  end
-
   # POST /charges
   def create
-    @charge = Charge.new(charge_params)
-
+    @charge        = Charge.new(amount: charge_params[:amount])
+    tokenized_card = Card.tokenized(params[:card_token]).take
+    if tokenized_card.nil?
+      return render json: { card_token: 'invalid or expired token' }, status: :unprocessable_entity
+    end
+    if tokenized_card.is_charged?
+      return render json: { card_token: 'already charged' }, status: :unprocessable_entity
+    end
+    @charge.card = tokenized_card
     if @charge.save
-      render json: @charge, status: :created, location: @charge
+      render json: @charge, status: :created
     else
       render json: @charge.errors, status: :unprocessable_entity
     end
-  end
-
-  # PATCH/PUT /charges/1
-  def update
-    if @charge.update(charge_params)
-      render json: @charge
-    else
-      render json: @charge.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /charges/1
-  def destroy
-    @charge.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_charge
-      @charge = Charge.find(params[:id])
-    end
-
     # Only allow a trusted parameter "white list" through.
     def charge_params
-      params.require(:charge).permit(:amount, :card_id)
+      params.permit(:amount, :card_token)
     end
 end

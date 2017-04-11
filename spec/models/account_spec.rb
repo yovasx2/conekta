@@ -33,12 +33,8 @@ RSpec.describe Account, type: :model do
   end
 
   describe 'to_json' do
-    before(:each) do
-      @account = FactoryGirl.create(:account)
-    end
-
     it 'should contain public and private keys only' do
-      body = JSON.parse(Account.last.to_json)
+      body = JSON.parse(FactoryGirl.create(:account).to_json)
       expect(body.has_key?('public_key')).to be(true)
       expect(body.has_key?('private_key')).to be(true)
       expect(body.size).to eq(2)

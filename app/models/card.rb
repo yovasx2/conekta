@@ -9,6 +9,11 @@ class Card < ApplicationRecord
   after_validation :tokenize
 
   scope :not_expired, -> { where('updated_at > ?', 10.minutes.ago) }
+  scope :tokenized, -> (card_token) { not_expired.where(card_token: card_token) }
+
+  def is_charged?
+    !self.charge.nil?
+  end
 
   def tokenize
     return unless is_unique?(self.card_token) # not expired

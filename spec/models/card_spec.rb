@@ -16,6 +16,18 @@ RSpec.describe Card, type: :model do
     expect(card).to be_valid
   end
 
+  describe 'is_charged?' do
+    it 'should return false' do
+      card = FactoryGirl.create :card
+      expect(card.is_charged?).to be(false)
+    end
+
+    it 'should return true' do
+      charge = FactoryGirl.create :charge
+      expect(charge.card.is_charged?).to be(true)
+    end
+  end
+
   describe 'tokenize' do
     before(:each) do
       @card = FactoryGirl.create(:card)
@@ -32,12 +44,8 @@ RSpec.describe Card, type: :model do
   end
 
   describe 'to_json' do
-    before(:each) do
-      @card = FactoryGirl.create(:card)
-    end
-
     it 'should contain card_token only' do
-      body = JSON.parse(Card.last.to_json)
+      body = JSON.parse(FactoryGirl.create(:card).to_json)
       expect(body.has_key?('card_token')).to be(true)
       expect(body.size).to eq(1)
     end
