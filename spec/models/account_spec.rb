@@ -13,28 +13,39 @@ RSpec.describe Account, type: :model do
     expect(account).to be_valid
   end
 
-  describe 'genarate_keys!' do
+  describe 'generate_keys' do
     before(:each) do
       @account = FactoryGirl.create(:account)
+      @account.generate_keys
     end
 
     it 'should assign a salt' do
-      @account.generate_keys!
       expect(@account.salt).not_to be(nil)
     end
 
     it 'should assign a public_key' do
-      @account.generate_keys!
       expect(@account.public_key).not_to be(nil)
     end
 
     it 'should assign a private_key' do
-      @account.generate_keys!
       expect(@account.private_key).not_to be(nil)
     end
   end
 
-  describe 'is_unique(public_key)' do
+  describe 'to_json' do
+    before(:each) do
+      @account = FactoryGirl.create(:account)
+    end
+
+    it 'should contain public and private keys only' do
+      body = JSON.parse(Account.last.to_json)
+      expect(body.has_key?('public_key')).to be(true)
+      expect(body.has_key?('private_key')).to be(true)
+      expect(body.size).to eq(2)
+    end
+  end
+
+  describe 'is_unique?(public_key)' do
     before(:each) do
       @account = FactoryGirl.create(:account)
     end
