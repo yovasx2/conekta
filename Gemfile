@@ -28,6 +28,19 @@ gem 'puma', '~> 3.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  # Default to Rspec for general testing
+  gem 'rspec-rails'
+  # Test coverage report
+  gem 'simplecov', require: false
+  # Schematics for Ruby
+  gem 'factory_girl_rails'
+  # Ensure a clean state for testing
+  gem 'database_cleaner', require: false
+  # Fill factories
+  gem 'ffaker'
+  # short tests
+  gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
 end
 
 group :development do
