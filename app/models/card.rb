@@ -4,7 +4,7 @@ class Card < ApplicationRecord
   validates :expiration_month, :expiration_year, length: { maximum: 2 }
   # TODO add a validator for credit card number, but bank is missing in params
 
-  has_many :charges
+  has_one :charge
 
   after_validation :tokenize
 
