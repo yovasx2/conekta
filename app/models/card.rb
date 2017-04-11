@@ -1,6 +1,6 @@
 class Card < ApplicationRecord
   validates :card_number, :expiration_month, :expiration_year, :secure_code, presence: true
-  validates :card_number, length: { maximum: 16 }
+  validates :card_number, length: { is: 16 }
   validates :expiration_month, :expiration_year, length: { maximum: 2 }
   # TODO add a validator for credit card number, but bank is missing in params
 

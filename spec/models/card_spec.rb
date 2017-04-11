@@ -6,7 +6,7 @@ RSpec.describe Card, type: :model do
     it { should validate_presence_of(:expiration_month) }
     it { should validate_presence_of(:expiration_year) }
     it { should validate_presence_of(:secure_code) }
-    it { should validate_length_of(:card_number).is_at_most(16) }
+    it { should validate_length_of(:card_number).is_equal_to(16) }
     it { should validate_length_of(:expiration_month).is_at_most(2) }
     it { should validate_length_of(:expiration_year).is_at_most(2) }
   end
