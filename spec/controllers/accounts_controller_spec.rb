@@ -24,12 +24,9 @@ RSpec.describe AccountsController, type: :controller do
         expect(assigns(:account)).to be_a(Account)
         expect(assigns(:account)).to be_persisted
       end
+    end
 
-      it 'returns http success' do
-        post :create, params: valid_attributes
-        expect(response).to have_http_status(:success)
-      end
-
+    context "with invalid params" do
       it 'returns http unprocessable entity' do
         post :create, params: invalid_attributes
         expect(response).to have_http_status(:unprocessable_entity)
