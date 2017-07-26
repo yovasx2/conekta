@@ -1,5 +1,7 @@
 # Conekta
 
+[![Build Status](https://www.travis-ci.org/yovasx2/conekta.svg?branch=master)](https://www.travis-ci.org/yovasx2/conekta)
+
 ## Content
 
 * [Description](#description)
